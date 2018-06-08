@@ -11,6 +11,7 @@
 #import "PaypalPaymentService.h"
 #import "StripePaymentService.h"
 #import "AmazonPaymentService.h"
+#import "ApplePaymentService.h"
 
 
 int main(int argc, const char * argv[]) {
@@ -20,7 +21,7 @@ int main(int argc, const char * argv[]) {
         while (YES){
         
         NSInteger payment = arc4random_uniform(900)+100;
-        NSLog(@"Thank you for shopping at Acme.com Your total today is $%ld Please select your payment method: 1: Paypal, 2: Stripe, 3: Amazon", payment);
+            NSLog(@"Thank you for shopping at Acme.com Your total today is $%ld Please select your payment method: 1: Paypal, 2: Stripe, 3: Amazon, 4: Apple", payment);
         
         fgets(merchant, 255, stdin);
         
@@ -35,6 +36,7 @@ int main(int argc, const char * argv[]) {
         StripePaymentService *stripe = [[StripePaymentService alloc]init];
         AmazonPaymentService *amazon = [[AmazonPaymentService alloc]init];
         PaypalPaymentService *paypal = [[PaypalPaymentService alloc]init];
+            ApplePaymentService *apple = [[ApplePaymentService alloc]init];
         switch (price) {
             case 1:
                 paymentGateway.delegate = paypal;
@@ -47,6 +49,9 @@ int main(int argc, const char * argv[]) {
             case 3:
                 paymentGateway.delegate = amazon;
                 [amazon processPaymentAmount:price];
+            case 4:
+                paymentGateway.delegate = apple;
+                [apple processPaymentAmount:price];
             default:
                 break;
         }
